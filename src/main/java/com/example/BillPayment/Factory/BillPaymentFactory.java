@@ -41,15 +41,16 @@ public class BillPaymentFactory {
 
 
         if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.DESCO) {
-            return new DESCOPaymentService();
+            return this.descoPaymentService;
         } else if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.DPDC) {
-            return new DPDCPaymentService();
+            return this.dpdcPaymentService;
         }
         else if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.PDB) {
-            return new PDBPaymentService();
+            return this.pdbPaymentService;
+
         }
         else if (billType == BillPaymentType.WATER && operator == BillPaymentOperator.WASA) {
-            return new WASAPaymentService();
+            return this.wasaPaymentService;
         }
 
         return null;

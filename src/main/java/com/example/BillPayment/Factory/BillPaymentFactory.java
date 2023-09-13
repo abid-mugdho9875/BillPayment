@@ -38,9 +38,7 @@ public class BillPaymentFactory {
                                           BillPaymentOperator operator,
                                           String billId,
                                           String billerName, int billAmount) {
-        // Implement your logic to create and return the appropriate BillPaymentService
-        // based on the billType and operator.
-        // For example:
+
 
         if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.DESCO) {
             return new DESCOPaymentService();
@@ -53,8 +51,7 @@ public class BillPaymentFactory {
         else if (billType == BillPaymentType.WATER && operator == BillPaymentOperator.WASA) {
             return new WASAPaymentService();
         }
-        // Handle other cases or return a default service
-//        return new DefaultBillPaymentService();
+
         return null;
     }
 }

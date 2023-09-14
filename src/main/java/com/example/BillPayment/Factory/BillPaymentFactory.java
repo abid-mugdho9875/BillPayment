@@ -49,7 +49,7 @@ public class BillPaymentFactory {
 
         throw new beanNotFoundException(
                 String.format("No Payment Service is declared for this payment-type:%s, operator:%s", billType, operator)
-        );
+        );;
 
     }
 }

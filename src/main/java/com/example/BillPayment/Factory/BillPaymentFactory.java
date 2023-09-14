@@ -7,31 +7,25 @@ import com.example.BillPayment.Service.Electricity.DESCOPaymentService;
 import com.example.BillPayment.Service.Electricity.DPDCPaymentService;
 import com.example.BillPayment.Service.Electricity.PDBPaymentService;
 import com.example.BillPayment.Service.Water.WASAPaymentService;
+import com.example.BillPayment.exception.beanNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
 
 public class BillPaymentFactory {
 
-
-    private final DESCOPaymentService descoPaymentService;
-    private final DPDCPaymentService dpdcPaymentService;
-    private  final  PDBPaymentService pdbPaymentService;
-    private  final  WASAPaymentService wasaPaymentService;
+    @Lazy
     @Autowired
-    public BillPaymentFactory(DESCOPaymentService descoPaymentService,
-                              DPDCPaymentService dpdcPaymentService,
-                              PDBPaymentService pdbPaymentService,
-                              WASAPaymentService wasaPaymentService)
-    {
-        this.descoPaymentService = descoPaymentService;
-        this.dpdcPaymentService = dpdcPaymentService;
-        this.pdbPaymentService = pdbPaymentService;
-        this.wasaPaymentService = wasaPaymentService;
-    }
-
+    private DESCOPaymentService descoPaymentService;
+    @Lazy @Autowired
+    private DPDCPaymentService dpdcPaymentService;
+    @Lazy @Autowired
+    private PDBPaymentService pdbPaymentService;
+    @Lazy @Autowired
+    private WASAPaymentService wasaPaymentService;
 
 
     public BILLPaymentService getInstance(BillPaymentType billType,
@@ -42,17 +36,20 @@ public class BillPaymentFactory {
 
         if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.DESCO) {
             return this.descoPaymentService;
-        } else if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.DPDC) {
+        } if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.DPDC) {
             return this.dpdcPaymentService;
         }
-        else if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.PDB) {
+        if (billType == BillPaymentType.ELECTRICITY && operator == BillPaymentOperator.PDB) {
             return this.pdbPaymentService;
 
         }
-        else if (billType == BillPaymentType.WATER && operator == BillPaymentOperator.WASA) {
+        if (billType == BillPaymentType.WATER && operator == BillPaymentOperator.WASA) {
             return this.wasaPaymentService;
         }
 
-        return null;
+        throw new beanNotFoundException(
+                String.format("No Payment Service is declared for this payment-type:%s, operator:%s", billType, operator)
+        );
+
     }
 }
